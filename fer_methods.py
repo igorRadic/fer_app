@@ -71,7 +71,6 @@ class Lhc:
         )
 
     def prepare_image_for_prediction(self, image):
-        print("Evo")
         # Get gray image from bgr image.
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
@@ -131,7 +130,6 @@ class ResNet18:
 
         # Transform image.
         image = self.transform(image)
-        print("prošla transformacija")
 
         # Add '1' as batch size.
         image = torch.unsqueeze(image, dim=0)
@@ -139,11 +137,8 @@ class ResNet18:
         return image
 
     def predict_emotion(self, image):
-        print("došao do predikcije")
         image = image.to(self._device)
         prediction = self._model(image)
-        print("prošao predikciju")
-        print(prediction)
         prediction = torch.softmax(prediction, 0)
         classification_confidence, current_prediction = torch.max(prediction, dim=0)
         return current_prediction, classification_confidence

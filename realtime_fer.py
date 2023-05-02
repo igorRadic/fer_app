@@ -27,14 +27,12 @@ cap = cv2.VideoCapture(int(config["CAMERA"]))
 font = cv2.FONT_HERSHEY_SIMPLEX
 
 # Recognition model selection
-# print("Please input desired face recognition model.")
-# desired_model = input()
-# if desired_model == 0:
-#     model = Rmn()
-# elif desired_model == 1:
-#     model = Lhc()
-# else:
-model = ResNet18()
+print("Please input desired face recognition model.")
+desired_model = input()
+if desired_model == 0:
+    model = Rmn()
+else:
+    model = Lhc()
 
 # Download and load recognition model.
 if not model_downloaded(model.filename):
@@ -92,10 +90,9 @@ with mp_face_detection.FaceDetection(
                     # Cropp bounding box.
                     face_image = image[y:bBox_height, x:bBox_width]
 
-                    print("došao")
                     # Adjust face image to suit model.
                     face_image = model.prepare_image_for_prediction(image=face_image)
-                    print("prošao")
+
                     # Predict emotion and measure prediction time.
                     start = perf_counter()
                     (
